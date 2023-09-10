@@ -1,0 +1,34 @@
+﻿@using System.Web.UI.WebControls
+@using CSC340_ordering_sytem.Models
+@using CSC340_ordering_sytem.Models.Helpers
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.MenuCategories = CategoriesHelper.GetAllCategories();
+}
+<ul>
+    @{
+        if (Request.IsAuthenticated)
+        {
+            if (UsersHelper.IsUserAdmin(int.Parse(User.Identity.GetUserId())))
+            {
+                @Html.Partial("_AdminNav")
+            }
+            else
+            {
+                @Html.Partial("_CustomerNav")
+            }
+        }
+        else
+        {
+            <li>
+                @Html.ActionLink("Home", "Index", "Home")
+            </li>
+            <li>
+                @Html.ActionLink("Login", "Login", "Authentication")
+            </li>
+            <li>
+                @Html.ActionLink("Register", "Register", "Users")
+            </li>
+        }
+    }
+</ul>

@@ -1,0 +1,61 @@
+﻿@using CSC340_ordering_sytem.Models.Helpers
+@using Microsoft.AspNet.Identity
+
+@{
+    var cartItems = CustomerHelper.GetCartItems(int.Parse(User.Identity.GetUserId()));
+}
+
+<div id="shop_cart">
+    <a href="#" id="shop_tigger">
+        <i class="fa fa-shopping-cart"></i>
+        <span>
+            @cartItems.Count()
+        </span>
+    </a>
+    <div class="shop_cart_content">
+        <h4>Shopping Cart</h4>
+        <div class="cart_items">
+            @if (cartItems.Any())
+            {
+                foreach (var item in cartItems)
+                {
+                    <div class="item clearfix">
+                        <a href="#">
+                            @if (!string.IsNullOrEmpty(item.MenuItem.Image))
+                            {
+                                <img src="@Url.Content(item.MenuItem.Image)" alt="">
+                            }
+                            else
+                            {
+                                <img src="../../Content/Assets/post_thumb.jpg" alt="">
+                            }
+                            
+                        </a>
+                        <div class="item_desc">
+                            <a href="#">
+                                @item.MenuItem.Name
+                            </a>
+                            <span class="item_price">
+                                $@item.MenuItem.Price
+                            </span>
+                            <span class="item_quantity">
+                                x @item.Quantity
+                            </span>
+                        </div>
+                    </div>
+            <!-- End item -->
+                }
+            }
+            
+            <div class="shop_action clearfix">
+                <span class="shop_checkout_price">
+                    $@CustomerHelper.GetCartTotal(cartItems)
+                </span>
+                <a href="@Url.Action("ShowCart", "Carts")" class="btn btn-dark pull-right">View Cart</a>
+            </div>
+        </div>
+        <!-- End cart items -->
+    </div>
+    <!-- End shop cart content -->
+</div>
+<!-- End shop cart -->

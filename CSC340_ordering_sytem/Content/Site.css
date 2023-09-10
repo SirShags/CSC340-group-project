@@ -1,0 +1,75 @@
+﻿.fa-genderless:before, .fa-circle-thin:before, .dark-green {
+    color: #649b3e;
+}
+
+.menu_grid .overlay_content .overlay {
+    padding-bottom: 11px;
+}
+
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.margin-top-25 {
+    margin-top: 25px;
+}
+
+.btn-red {
+    border-color: #b94a48;
+}
+
+.btn-red:hover {
+    background: #b94a48;
+}
+
+.btn-yellow {
+    border-color: #c09853;
+}
+
+.btn-yellow:hover {
+    background: #c09853;
+}
+
+.btn-custom {
+    border-width: 2px;
+    border-style: solid;
+    background: transparent;
+    padding: 6px 25px;
+    border-radius: 10px;
+	-webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    text-transform: uppercase;
+    height: 40px;
+    line-height: 1.7;
+    font-size: 13px;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.btn-custom.btn-sm {
+    padding: 3px 15px;
+    height: auto;
+}
+
+.btn-custom:hover {
+    color: #fff;
+}
+
+.clearButton {
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.max-image {
+    max-width: 100%;
+}
+
+.margin-bottom-25 {
+    margin-bottom: 25px;
+}
+
+#shop_cart .cart_items a:hover {
+    color: #ffffff;
+}

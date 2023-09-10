@@ -1,0 +1,21 @@
+﻿@model CSC340_ordering_sytem.Models.CreditCard
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete the card ending in <span clas="text-danger">@Model.CardSuffix</span>?</h3>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        @Html.ActionLink("No, Go Back", "Index")
+        &nbsp;
+        <input type="submit" value="Yes, Delete" class="btn btn-custom btn-red"/>
+    </div>
+}

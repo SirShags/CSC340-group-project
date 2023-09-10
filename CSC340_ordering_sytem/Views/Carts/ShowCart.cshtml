@@ -1,0 +1,129 @@
+﻿@model CSC340_ordering_sytem.Models.Customer
+
+@{
+    ViewBag.Title = "Your Cart";
+}
+
+<!-- Carts
+============================================= -->
+@if (Model.Cart != null && Model.Cart.CartItems != null && Model.Cart.CartItems.Any())
+{
+    <!-- Table carts -->
+    <table class="table table-striped table-responsive table-cart">
+        <thead>
+        <tr>
+            <th style="width: 40%">Product</th>
+            <th style="width: 10%">Price</th>
+            <th style="width: 20%">Quantity</th>
+            <th style="width: 10%">Total</th>
+            <th style="width: 20%">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Cart.CartItems)
+        {
+            {
+                ViewBag.itemUpdateFormId = "update-item-" + item.Id;
+                ViewBag.itemQtyInputId = "item-qty-" + item.Id;
+            }
+            <tr>
+                <td class="dark-green">
+                    @if (!string.IsNullOrEmpty(item.MenuItem.Image))
+                    {
+                        <img src="@Url.Content(item.MenuItem.Image)" alt="">
+                    }
+                    else
+                    {
+                        <img src="../../Content/Assets/1.jpg" alt="">
+                    }
+
+                    @Html.DisplayFor(modelItem => item.MenuItem.Name)
+                </td>
+                <td>$@item.MenuItem.Price</td>
+                <td>
+                    @using (Html.BeginForm("UpdateItemInCart", "Carts", FormMethod.Post, new {id = ViewBag.itemUpdateFormId }))
+                    {
+                         <!-- input group minus & plus-->
+                        <div class="input-group plus-minus">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default btn-number"
+                                        data-action="decrement" data-target="#@ViewBag.itemQtyInputId">
+                                    <span class="fa fa-minus"></span>
+                                </button>
+                            </span>
+                            <input type="number" id="@ViewBag.itemQtyInputId" class="form-control input-number" value="@item.Quantity"
+                                   min="1" max="10" disabled="disabled">
+                            <input type="hidden" name="Quantity" data-value="#@ViewBag.itemQtyInputId" value="@item.Quantity" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default btn-number" data-action="increment"
+                                        data-target="#@ViewBag.itemQtyInputId">
+                                    <span class="fa fa-plus"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- End input group minus & plus -->
+                        <input type="hidden" name="Id" value="@item.Id" />
+                    }
+                </td>
+                <td>
+                    <span class="total">$@(item.MenuItem.Price*item.Quantity)</span>
+                </td>
+                <td>
+                    <input type="submit" class="btn btn-gold" data-action="update-item" data-target="#@ViewBag.itemUpdateFormId" value="Update"/>
+                    @using (@Html.BeginForm("RemoveItemFromCart", "Carts", FormMethod.Post, new { @class = "pull-right" }))
+                    {
+                        <button type="submit" class="clearButton dark-green">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <input type="hidden" name="Id" value="@item.Id" />
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <!-- Carts content -->
+    <div class="col-md-12 carts-content">
+        <div class="row">
+            <!-- Left side -->
+            <div class="col-md-5 left-side"></div>
+            <!-- End Left side -->
+            <!-- Right side -->
+            <div class="col-md-5 col-md-offset-2 right-side">
+                <!-- Carts total -->
+                <div class="carts-total text-left margin-tb-60">
+                    <h3>Carts Total</h3>
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>Cart Subtotal</td>
+                            <td>$@Model.Cart.GetSubTotal()</td>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <td>$@Model.Cart.GetTax()</td>
+                        </tr>
+                        <tr>
+                            <td>Order Total</td>
+                            <td>$@Model.Cart.GetTotal()</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    @Html.ActionLink("Proceed to Checkout", "Checkout", "FrontOrders", null, new { @class="btn btn-black" })
+                </div>
+                <!-- Carts total -->
+            </div>
+            <!--End Right side -->
+        </div>
+    </div>
+    <!--End Carts content -->
+}
+else
+{
+    <h3 class="text-center">You don't have any items in your cart</h3>
+    <p class="text-center"><a href="@Url.Action("ListCategories", "FrontMenu")" class="btn btn-dark">Visit Menu</a>
+    </p>
+}
